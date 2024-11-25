@@ -1,82 +1,104 @@
 #include "get_next_line.h"
-
-static char *get_line(char *stored, char *buf)
-{
-  char  *temp;
-
-  if (stored == NULL)
-    stored = ft_strjoin("", buf);
-  else
-  {
-    temp = stored;
-    stored = ft_strjoin(stored, buf);
-    free(temp);
-  }
-  return (stored);
-}
-
-static char  *read_and_stored(int fd, char *stored)
-{
-  char  *buf;
-  ssize_t   bytes_read;
-
-  buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-  ft_bzero(buf, (BUFFER_SIZE + 1) * sizeof(char));
-  if (buf == NULL)
-    return(NULL);
-
-  bytes_read = 1;
-  while (bytes_read > 0 && (ft_strchr(buf, '\n') == NULL || stored == NULL))
-  {
-    bytes_read = read(fd, buf, BUFFER_SIZE);
-    if (bytes_read < 0)
-    {
-      free(buf);
-      return (NULL);
-    }
-    buf[bytes_read] = '\0';
-    stored = get_line(stored, buf);
-  }
-  free(buf);
-  return (stored);
-}
-
-static size_t  line_size(char *str)
-{
-  size_t    line_len;
-
-  line_len = 0;
-  while (str[line_len] && str[line_len] != '\n')
-      line_len++;
-  if (str[line_len] == '\n')
-      line_len++;
-  return (line_len);
-}
-
+// USING LIST
 char	*get_next_line(int fd)
 {
-  static char *stored;
-  char  *line;
-  char  *temp;
-  size_t    line_len;
+  static t_list *list = NULL;
+  char  *next_line;
 
-  if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-  stored = read_and_stored(fd, stored);
-  if (stored == NULL || *stored == '\0')
-{
-    free(stored);
-    stored = NULL;
+  if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &next_line, 0) < 0)
     return (NULL);
-}
-  line_len = line_size(stored);
-  line = ft_substr(stored, 0, line_len);
-  temp = stored;
-  stored = ft_substr(stored, line_len, ft_strlen(stored) - line_len);
-  free(temp);
-  return (line);
+
+  create_list(&list, fd);
+  if (list == NULL)
+    return (NULL);
+
+  next_line = get_line(list);
+
+  clean_list(&list);
+  return (next_line);
 }
 
+
+// USING FUNCTIONS
+
+// static char *get_line(char *stored, char *buf)
+// {
+//   char  *temp;
+
+//   if (stored == NULL)
+//     stored = ft_strjoin("", buf);
+//   else
+//   {
+//     temp = stored;
+//     stored = ft_strjoin(stored, buf);
+//     free(temp);
+//   }
+//   return (stored);
+// }
+
+// static char  *read_and_stored(int fd, char *stored)
+// {
+//   char  *buf;
+//   ssize_t   bytes_read;
+
+//   buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+//   ft_bzero(buf, (BUFFER_SIZE + 1) * sizeof(char));
+//   if (buf == NULL)
+//     return(NULL);
+
+//   bytes_read = 1;
+//   while (bytes_read > 0 && (ft_strchr(buf, '\n') == NULL || stored == NULL))
+//   {
+//     bytes_read = read(fd, buf, BUFFER_SIZE);
+//     if (bytes_read < 0)
+//     {
+//       free(buf);
+//       return (NULL);
+//     }
+//     buf[bytes_read] = '\0';
+//     stored = get_line(stored, buf);
+//   }
+//   free(buf);
+//   return (stored);
+// }
+
+// static size_t  line_size(char *str)
+// {
+//   size_t    line_len;
+
+//   line_len = 0;
+//   while (str[line_len] && str[line_len] != '\n')
+//       line_len++;
+//   if (str[line_len] == '\n')
+//       line_len++;
+//   return (line_len);
+// }
+
+// char	*get_next_line(int fd)
+// {
+//   static char *stored;
+//   char  *line;
+//   char  *temp;
+//   size_t    line_len;
+
+//   if (fd < 0 || BUFFER_SIZE <= 0)
+// 		return (NULL);
+//   stored = read_and_stored(fd, stored);
+//   if (stored == NULL || *stored == '\0')
+// {
+//     free(stored);
+//     stored = NULL;
+//     return (NULL);
+// }
+//   line_len = line_size(stored);
+//   line = ft_substr(stored, 0, line_len);
+//   temp = stored;
+//   stored = ft_substr(stored, line_len, ft_strlen(stored) - line_len);
+//   free(temp);
+//   return (line);
+// }
+
+// MAIN
 // int	main(int argc, char **argv)
 // {
 // 	int	file_descriptor;
