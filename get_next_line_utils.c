@@ -6,39 +6,39 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 11:30:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2024/12/02 18:32:53 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2024/12/04 11:08:04 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	size;
+	char	*str;
+	size_t	len;
 	size_t	i;
-	char	*dest_ptr;
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	dest_ptr = malloc(size);
-	if (dest_ptr == NULL)
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	str = malloc(len);
+	if (str == NULL)
 		return (NULL);
 	i = 0;
 	while (*s1 != '\0')
 	{
-		dest_ptr[i] = *s1;
+		str[i] = *s1;
 		i++;
 		s1++;
 	}
 	while (*s2 != '\0')
 	{
-		dest_ptr[i] = *s2;
+		str[i] = *s2;
 		i++;
 		s2++;
 	}
-	dest_ptr[i] = '\0';
-	return (dest_ptr);
+	str[i] = '\0';
+	return (str);
 }
 
 // LIBFT functions
