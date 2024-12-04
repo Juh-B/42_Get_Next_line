@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/02 11:30:14 by jcosta-b          #+#    #+#             */
+/*   Updated: 2024/12/02 18:33:03 by jcosta-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 static char	*get_line(char *stored, char *buf)
@@ -24,11 +36,11 @@ static char	*read_and_stored(int fd, char *stored)
 	i = 0;
 	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (buf == NULL)
-		return(NULL);
+		return (NULL);
 	while (i < ((BUFFER_SIZE + 1) * sizeof(char)))
 		((unsigned char *)buf)[i++] = 0;
 	bytes_read = 1;
-	while (bytes_read > 0 && (ft_strchr(buf, '\n') == NULL || stored == NULL))
+	while (bytes_read != 0 && (ft_strchr(buf, '\n') == NULL || stored == NULL))
 	{
 		bytes_read = read(fd, buf, BUFFER_SIZE);
 		if (bytes_read < 0)
@@ -61,7 +73,7 @@ char	*get_next_line(int fd)
 	static char	*stored;
 	char		*line;
 	char		*temp;
-	size_t	line_len;
+	size_t		line_len;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -72,22 +84,25 @@ char	*get_next_line(int fd)
 		stored = NULL;
 		return (NULL);
 	}
-	line_len = line_size(stored);
-	line = ft_substr(stored, 0, line_len);
-	temp = stored;
-	stored = ft_substr(stored, line_len, ft_strlen(stored) - line_len);
-	free(temp);
+	else
+	{
+		line_len = line_size(stored);
+		line = ft_substr(stored, 0, line_len);
+		temp = stored;
+		stored = ft_substr(stored, line_len, ft_strlen(stored) - line_len);
+		free(temp);
+	}
 	return (line);
 }
 
 // MAIN
 // int	main(int argc, char **argv)
 // {
-// 	int	file_descriptor;
+// 	int		file_descriptor;
 // 	char	*line;
-//   int n;
+// 	int		n;
 
-//   n = 1;
+// 	n = 1;
 // 	if (argc < 2)
 // 	{
 // 		write(1, "File name missing.\n", 19);

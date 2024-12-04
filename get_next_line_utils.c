@@ -1,4 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/02 11:30:40 by jcosta-b          #+#    #+#             */
+/*   Updated: 2024/12/02 18:32:53 by jcosta-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
+
+char	*ft_strjoin(const char *s1, const char *s2)
+{
+	size_t	size;
+	size_t	i;
+	char	*dest_ptr;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	size = ft_strlen(s1) + ft_strlen(s2) + 1;
+	dest_ptr = malloc(size);
+	if (dest_ptr == NULL)
+		return (NULL);
+	i = 0;
+	while (*s1 != '\0')
+	{
+		dest_ptr[i] = *s1;
+		i++;
+		s1++;
+	}
+	while (*s2 != '\0')
+	{
+		dest_ptr[i] = *s2;
+		i++;
+		s2++;
+	}
+	dest_ptr[i] = '\0';
+	return (dest_ptr);
+}
 
 // LIBFT functions
 size_t	ft_strlen(const char *s)
@@ -9,24 +50,6 @@ size_t	ft_strlen(const char *s)
 	while (s[i] != '\0')
 		i++;
 	return (i);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	int				i;
-	unsigned char	ch;
-
-	ch = (unsigned char)c;
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == ch)
-			return ((char *)&s[i]);
-		i++;
-	}
-	if (ch == '\0')
-		return ((char *)&s[i]);
-	return (NULL);
 }
 
 char	*ft_strdup(const char *s)
@@ -47,6 +70,24 @@ char	*ft_strdup(const char *s)
 	}
 	dup[i] = '\0';
 	return (dup);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int				i;
+	unsigned char	ch;
+
+	ch = (unsigned char)c;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == ch)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if (ch == '\0')
+		return ((char *)&s[i]);
+	return (NULL);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -76,34 +117,4 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	substr[i] = '\0';
 	return (substr);
-}
-
-// A little bit differente from my original libft
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char		*str;
-	size_t		len;
-	size_t		i;
-
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	str = malloc(len);
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (*s1 != '\0')
-	{
-		str[i] = *s1;
-		i++;
-		s1++;
-	}
-	while (*s2 != '\0')
-	{
-		str[i] = *s2;
-		i++;
-		s2++;
-	}
-	str[i] = '\0';
-	return (str);
 }

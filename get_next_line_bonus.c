@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/04 10:55:23 by jcosta-b          #+#    #+#             */
+/*   Updated: 2024/12/04 11:05:11 by jcosta-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line_bonus.h"
 
 static char	*get_line(char *stored, char *buf)
@@ -24,7 +36,7 @@ static char	*read_and_stored(int fd, char *stored)
 	i = 0;
 	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (buf == NULL)
-		return(NULL);
+		return (NULL);
 	while (i < ((BUFFER_SIZE + 1) * sizeof(char)))
 		((unsigned char *)buf)[i++] = 0;
 	bytes_read = 1;
@@ -61,7 +73,8 @@ char	*get_next_line(int fd)
 	static char	*stored[1024];
 	char		*line;
 	char		*temp;
-	size_t	line_len;
+	size_t		line_len;
+	size_t		substr_len;
 
 	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -75,7 +88,8 @@ char	*get_next_line(int fd)
 	line_len = line_size(stored[fd]);
 	line = ft_substr(stored[fd], 0, line_len);
 	temp = stored[fd];
-	stored[fd] = ft_substr(stored[fd], line_len, ft_strlen(stored[fd]) - line_len);
+	substr_len = ft_strlen(stored[fd]) - line_len;
+	stored[fd] = ft_substr(stored[fd], line_len, substr_len);
 	free(temp);
 	return (line);
 }

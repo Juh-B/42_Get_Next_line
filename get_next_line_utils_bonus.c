@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/04 10:57:22 by jcosta-b          #+#    #+#             */
+/*   Updated: 2024/12/04 11:04:58 by jcosta-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line_bonus.h"
 
 // LIBFT functions
@@ -81,9 +93,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 // A little bit differente from my original libft
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char		*str;
-	size_t		len;
-	size_t		i;
+	char	*str;
+	size_t	len;
+	size_t	i;
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
