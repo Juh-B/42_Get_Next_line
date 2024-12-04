@@ -11,26 +11,6 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strdup(const char *s)
-{
-	int		i;
-	int		str_len;
-	char	*dup;
-
-	i = 0;
-	str_len = ft_strlen(s);
-	dup = (char *)malloc((str_len + 1) * sizeof(char));
-	if (dup == NULL)
-		return (NULL);
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
 char	*ft_strchr(const char *s, int c)
 {
 	int				i;
@@ -49,43 +29,24 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-void	ft_bzero(void *s, size_t n)
+char	*ft_strdup(const char *s)
 {
-	size_t	i;
+	int		i;
+	int		str_len;
+	char	*dup;
 
 	i = 0;
-	while (i < n)
-	{
-		((unsigned char *)s)[i] = 0;
-		i++;
-	}
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char		*str;
-	size_t		len;
-	size_t		i;
-	size_t		j;
-
-	len = ft_strlen(s1) + ft_strlen(s2);
-	str = (char *)malloc((len + 1) * sizeof(char));
-	if (str == NULL)
+	str_len = ft_strlen(s);
+	dup = (char *)malloc((str_len + 1) * sizeof(char));
+	if (dup == NULL)
 		return (NULL);
-	i = 0;
-	while (i < ft_strlen(s1))
+	while (s[i])
 	{
-		str[i] = s1[i];
+		dup[i] = s[i];
 		i++;
 	}
-	j = 0;
-	while (j < ft_strlen(s2))
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	str[i + j] = '\0';
-	return (str);
+	dup[i] = '\0';
+	return (dup);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -115,4 +76,34 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	substr[i] = '\0';
 	return (substr);
+}
+
+// A little bit differente from my original libft
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char		*str;
+	size_t		len;
+	size_t		i;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	str = malloc(len);
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	while (*s1 != '\0')
+	{
+		str[i] = *s1;
+		i++;
+		s1++;
+	}
+	while (*s2 != '\0')
+	{
+		str[i] = *s2;
+		i++;
+		s2++;
+	}
+	str[i] = '\0';
+	return (str);
 }
